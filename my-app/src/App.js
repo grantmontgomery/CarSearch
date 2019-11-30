@@ -17,13 +17,13 @@ class App extends Component {
     );
     this.setState({ images: response.data.results });
   };
+
   render() {
     return (
       <div className="ui container" style={{ marginTop: "10px" }}>
         <SearchBar onSubmit={this.onSearchSubmit} />
         <br />
-        <button className="previous">{"<"}</button>
-        <button className="next">{">"}</button>
+
         <ImageList images={this.state.images} />
       </div>
     );
