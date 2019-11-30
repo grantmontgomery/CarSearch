@@ -14,32 +14,40 @@ class ImageList extends Component {
   nextItems = event => {
     event.preventDefault();
     const { images } = this.props;
-    const { startIndex } = this.state;
-    const { endIndex } = this.state;
-    if (startIndex + 4 < images.length) {
-      this.setState(() => {
-        startIndex: startIndex + 4;
-        endIndex: endIndex + 4;
-      });
+    const { startIndex, endIndex } = this.state;
+    endIndex + 4 <= images.length
+      ? this.setState(() => ({
+          startIndex: startIndex + 4,
+          endIndex: endIndex + 4
+        }))
+      : this.setState(() => ({
+          startIndex: startIndex + 4,
+          endIndex: images.length
+        }));
+  };
+
+  previousItems = event => {
+    event.preventDefault();
+    const { images } = this.props;
+    const { startIndex, endIndex } = this.state;
+    if (endIndex === images.length && startIndex - 4 >= 0) {
+      this.setState(() => ({
+        startIndex: startIndex - 4,
+        endIndex: startIndex
+      }));
+    } else if (startIndex - 4 >= 0) {
+      this.setState(() => ({
+        startIndex: startIndex - 4,
+        endIndex: endIndex - 4
+      }));
     }
+  };
 
-    previousItems = event => {
-      event.preventDefault();
-      const { images } = this.props;
-      const { startIndex } = this.state;
-      const { endIndex } = this.state;
-      if (startIndex - 4 >= 0) {
-        this.setState(() => {
-          startIndex: startIndex - 4;
-          endIndex: endIndex - 4;
-        });
-      }
-    };
-
-    render();
-    {
+  renderFunctionality = () => {
+    const { images } = this.props;
+    if (images.length > 0) {
       return (
-        <div className="image-list">
+        <React.Fragment>
           <button className="previous" onClick={e => this.previousItems(e)}>
             {"<"}
           </button>
@@ -54,10 +62,15 @@ class ImageList extends Component {
           <button className="next" onClick={e => this.nextItems(e)}>
             {">"}
           </button>
-        </div>
+        </React.Fragment>
       );
     }
   };
+
+  render() {
+    console.log(this.state);
+    return <div className="image-list">{this.renderFunctionality()}</div>;
+  }
 }
 
 export default ImageList;
