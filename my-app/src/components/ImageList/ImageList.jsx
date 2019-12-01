@@ -5,25 +5,19 @@ import "./ImageList.css";
 class ImageList extends Component {
   constructor(props) {
     super(props);
+    let divided = [];
+    for (let i = 0; i < this.props.images.length; i += 4) {
+      i + 4 < this.props.images.length
+        ? (divided = [...divided, this.props.images.slice(i, i + 4)])
+        : (divided = [...divided, this.props.images.slice(i)]);
+    }
     this.state = {
-      startIndex: 0,
-      endIndex: 4
+      divided: [...divided]
     };
   }
-
   nextItems = event => {
     event.preventDefault();
     const { images } = this.props;
-    const { startIndex, endIndex } = this.state;
-    endIndex + 4 <= images.length
-      ? this.setState(() => ({
-          startIndex: startIndex + 4,
-          endIndex: endIndex + 4
-        }))
-      : this.setState(() => ({
-          startIndex: startIndex + 4,
-          endIndex: images.length
-        }));
   };
 
   previousItems = event => {
@@ -68,7 +62,6 @@ class ImageList extends Component {
   };
 
   render() {
-    console.log(this.state);
     return <div className="image-list">{this.renderFunctionality()}</div>;
   }
 }
